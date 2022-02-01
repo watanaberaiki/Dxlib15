@@ -1,6 +1,7 @@
 #include "DxLib.h"
 
 void DrawMirror(int x, int y, int r, int t, int angle);
+void DrawBlock(int x, int y,int r,int t);
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "LC1B_31_ワタナベライキ: 適当レーザー";
 
@@ -40,8 +41,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 画像などのリソースデータの変数宣言と読み込み
 
 
-	// ゲームループで使う変数の宣言
+	// ゲームループで使う変数の宣言 
+	
+	//ブロック
+	int blockX = 640;
+	int blockY = 256;
+	int blockR = 32;
+	int blockT = 10;
+
+	//シーン
 	int scene = 0;
+	//鏡
 	int mirrorX = 640;
 	int mirrorY = 256;
 	int mirrorR = 32;
@@ -75,7 +85,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 		case 1:
 			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
-				scene = 0;
+				scene = 2;
 			}
 			if (keys[KEY_INPUT_C] == 1 && oldkeys[KEY_INPUT_C] == 0) {
 				if (mirrorAngle == 3) {
@@ -84,6 +94,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				else {
 					mirrorAngle += 1;
 				}
+			}
+			break;
+		case 2:
+			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
+				scene = 0;
 			}
 			break;
 		}
@@ -142,6 +157,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 		case 1:
 			DrawMirror(mirrorX,mirrorY,mirrorR,mirrorT,mirrorAngle);
+			break;
+		case 2:
+			DrawBlock(blockX, blockY, blockR, blockT);
 			break;
 		}
 
@@ -311,4 +329,10 @@ void DrawMirror(int x, int y, int r, int t,int angle) {
 			true
 		);
 	}
+}
+
+void DrawBlock(int x, int y,int r, int t) {
+
+	DrawBox(x,y,x+r*2,y+r*2,GetColor(100,100,100),true);
+	DrawBox(x + t, y + t, x + (r * 2) - t, y + (r * 2) - t, GetColor(155, 155, 155), true);
 }
